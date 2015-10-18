@@ -101,7 +101,7 @@ class CubeFileController extends Controller
     public function upload(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'cube_file' => 'required|mimes:txt|max:128',
+            'cube_file' => 'required|mimes:txt|max:32',
         ]);
 
         if ($validator->fails()) {

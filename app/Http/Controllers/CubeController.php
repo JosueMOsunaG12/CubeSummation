@@ -20,8 +20,7 @@ class CubeController extends Controller
     {
         $cubes = Cube::all();
 
-        return view('cubes.index', array('cubes' => $cubes)
-        );
+        return view('cubes.index', array('cubes' => $cubes));
     }
 
     /**

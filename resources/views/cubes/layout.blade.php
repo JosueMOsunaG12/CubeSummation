@@ -54,7 +54,7 @@
           <!-- Button trigger modal -->
           <div class="col-md-2">
             <button type="button" class="btn btn-lg btn-success" id="loadFileCube" data-toggle="modal" data-target="#modalLoadFileCube">
-              Load a Cube            
+              Upload Cubes            
             </button>
           </div>
         </div>
@@ -75,7 +75,7 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                {!! Form::submit('Add', ['class' => 'btn btn-success'] ) !!}
+                {!! Form::submit('Add', ['class' => 'btn btn-success', 'id' => 'submit-add'] ) !!}
               </div>
               {!! Form::close() !!}
             </div>
@@ -88,7 +88,7 @@
             <div class="modal-content">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Load Cube Information</h4>
+                <h4 class="modal-title" id="myModalLabel">Upload Cube Information</h4>
               </div>
               <div class="alert alert-info" role="alert">
                 In this section you can upload a file with all the operations you want to perform on a given cube:
@@ -96,19 +96,17 @@
               {!! Form::open(array('url' => 'cube/upload/', 'method' => 'post', 'files' => true)) !!}
               <div class="modal-body">
                 <div class="form-group">
-                  {!! Form::label('File to load') !!}
                   {!! Form::file('cube_file', null, ['class' => 'form-control', 'placeholder' => 'File']) !!}
                 </div>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                {!! Form::submit('Load Information', ['class' => 'btn btn-primary'] ) !!}
+                {!! Form::submit('Upload Information', ['class' => 'btn btn-primary', 'id' => 'submit-upload'] ) !!}
               </div>
               {!! Form::close() !!}
             </div>
           </div>
         </div>
-
 
         @if(isset($cube_act))
           <!-- Button trigger modal -->
@@ -135,7 +133,7 @@
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                  {!! Form::submit('Update', ['class' => 'btn btn-primary'] ) !!}
+                  {!! Form::submit('Update', ['class' => 'btn btn-primary', 'id' => 'submit-update'] ) !!}
                 </div>
                 {!! Form::close() !!}
               </div>
@@ -168,7 +166,7 @@
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                  {!! Form::submit('Query', ['class' => 'btn btn-primary'] ) !!}
+                  {!! Form::submit('Query', ['class' => 'btn btn-primary', 'id' => 'submit-query'] ) !!}
                 </div>
                 {!! Form::close() !!}
               </div>

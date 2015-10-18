@@ -16,5 +16,5 @@ Route::get('/', function () {
 Route::resource('cube', 'CubeController');
 Route::post('cube/{id}/query/', 'CubeController@query');
 Route::post('cube/upload/', 'CubeFileController@upload');
-Route::get('cube/download/', 'CubeFileController@download');
+Route::get('cube/{id}/download/', 'CubeFileController@download');
 

@@ -8,9 +8,9 @@
         <h4>{{ $message }}</h4>
       </div>
     @endif
-    <h2>Blocks for the cube {{ $cube_act->name }}</h2>
+    <h2>Blocks for {{ $cube_act->name }}</h2>
     @if($blocks)
-    <div class="col-md-4 col-md-offset-4">
+    <div class="col-md-6 col-md-offset-3">
       <table class="table table-hover">
         <thead>
           <tr>
@@ -30,6 +30,7 @@
         @endforeach
       </table>
     </div>
+    {!! $blocks->render() !!}
     @endif
   </div>
 </div>

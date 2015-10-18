@@ -8,7 +8,7 @@
     <title>Cube Summation</title>
 
     @if(Session::has('download_in_the_next_request'))
-       <meta http-equiv="refresh" content="1;url={{ Session::get('download_in_the_next_request') }}">
+       <meta http-equiv="refresh" content="3;url={{ Session::get('download_in_the_next_request') }}">
     @endif
 
     <!-- Bootstrap core CSS -->
@@ -31,7 +31,7 @@
           @if (count($cubes) > 0)
           <div class="col-md-2 col-md-offset-3">
             <div class="dropdown">
-              <button class="btn btn-info btn-lg dropdown-toggle" type="button" id="dropdownCube" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+              <button class="btn btn-warning btn-lg dropdown-toggle" type="button" id="dropdownCube" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                 {{ $cube_act->name or 'Choose a Cube' }}
                 <span class="caret"></span>
               </button>
@@ -47,13 +47,13 @@
           <div class="col-md-2 col-md-offset-4">
           @endif
           <!-- Button trigger modal -->
-            <button type="button" class="btn btn-success btn-lg" id="addCube" data-toggle="modal" data-target="#modalAddCube">
+            <button type="button" class="btn btn-info btn-lg" id="addCube" data-toggle="modal" data-target="#modalAddCube">
               Add a Cube
             </button>
           </div>
           <!-- Button trigger modal -->
           <div class="col-md-2">
-            <button type="button" class="btn btn-lg" id="loadFileCube" data-toggle="modal" data-target="#modalLoadFileCube">
+            <button type="button" class="btn btn-lg btn-success" id="loadFileCube" data-toggle="modal" data-target="#modalLoadFileCube">
               Load a Cube            
             </button>
           </div>
@@ -179,6 +179,15 @@
     </div>
 
     <div class="container text-center">
+      @if (Session::has('errors'))
+          <div class="alert alert-danger col-md-6 col-md-offset-3" role="alert">
+            <h4>¡Ups! We found some errors in the form: </h4>
+              <br>
+              @foreach ($errors->all() as $error)
+                <p>{{ $error }}<p>
+              @endforeach
+          </div>
+      @endif
       <!-- Example row of columns -->
       @yield('content')
 
@@ -195,5 +204,7 @@
     <!-- Placed at the end of the document so the pages load faster -->
     {!! Html::script('https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js') !!}
     {!! Html::script('https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js') !!}
+    {!! Html::script('http://cdn.jsdelivr.net/jquery.validation/1.14.0/jquery.validate.min.js') !!}
+    
 
 </body></html>

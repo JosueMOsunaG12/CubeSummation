@@ -8,3 +8,25 @@
 .table.table-hover td {
     text-align: center;
 }
+ul.dropdown-menu {
+    overflow-y: scroll;
+    max-height: 270px;
+}
+.jumbotron h1 {
+    color: darkblue;
+    margin-bottom: 20px;
+    margin-top: 0;
+}
+.jumbotron.text-center {
+    padding: 40px;
+    margin-bottom: 10px;
+}
+ul.pagination {
+    margin-top: 5px;
+}
+hr {
+    margin-bottom: 10px;
+}
+.alert h4 {
+    margin-bottom: 0;
+}

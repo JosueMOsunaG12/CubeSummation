@@ -27,6 +27,6 @@ class Cube extends Model
      */
     public function blocks()
     {
-        return $this->hasMany('App\Block')->get();
+        return $this->hasMany('App\Block');
     }
 }

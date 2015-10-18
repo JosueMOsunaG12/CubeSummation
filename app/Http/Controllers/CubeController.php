@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Validator;
 use App\Cube;
 use App\Block;
 use Illuminate\Http\Request;
@@ -41,6 +42,17 @@ class CubeController extends Controller
      */
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|max:255',
+        ]);
+
+        if ($validator->fails()) {
+            $this->throwValidationException(
+                $request, $validator
+            );
+        }
+
+
         $cube = Cube::create(array(
             'name' => $request->input('name')
         ));
@@ -64,7 +76,7 @@ class CubeController extends Controller
     {
         $cubes = Cube::all();
         $cube = $cubes->find($id);
-        $blocks = $cube->blocks();
+        $blocks = $cube->blocks()->paginate(10);
 
         return view('cubes.show', array('cubes' => $cubes,
                                         'cube_act' => $cube,
@@ -93,8 +105,21 @@ class CubeController extends Controller
     {
         $cubes = Cube::all();
         $cube = $cubes->find($id);
-        $blocks = $cube->blocks();
+        $blocks = $cube->blocks()->get();
         $message = 'The cube was updated successfully';
+
+        $validator = Validator::make($request->all(), [
+            'x' => 'required|integer|max:32767',
+            'y' => 'required|integer|max:32767',
+            'z' => 'required|integer|max:32767',
+            'value' => 'required|integer|max:9223372036854775807',
+        ]);
+
+        if ($validator->fails()) {
+            $this->throwValidationException(
+                $request, $validator
+            );
+        }
 
         $x = $request->input('x');
         $y = $request->input('y');
@@ -106,6 +131,7 @@ class CubeController extends Controller
                 $block->value = $value;
                 $block->save();
 
+                $blocks = $cube->blocks()->paginate(10);
                 return view('cubes.show', array('cubes'     => $cubes,
                                                 'cube_act'  => $cube,
                                                 'blocks'    => $blocks,
@@ -121,7 +147,7 @@ class CubeController extends Controller
             'cube_id' => $cube->id
         ));
 
-        $blocks = $cube->blocks();
+        $blocks = $cube->blocks()->paginate(10);
         return view('cubes.show', array('cubes'     => $cubes,
                                         'cube_act'  => $cube,
                                         'blocks'    => $blocks,
@@ -151,9 +177,24 @@ class CubeController extends Controller
     {
         $cubes = Cube::all();
         $cube = $cubes->find($id);
-        $blocks = $cube->blocks();
+        $blocks = $cube->blocks()->get();
         $sum = 0;
         $message = "The query resulted in the sum of: ";
+
+        $validator = Validator::make($request->all(), [
+            'x1' => 'required|integer|max:32767',
+            'y1' => 'required|integer|max:32767',
+            'z1' => 'required|integer|max:32767',
+            'x2' => 'required|integer|max:32767',
+            'y2' => 'required|integer|max:32767',
+            'z2' => 'required|integer|max:32767',
+        ]);
+
+        if ($validator->fails()) {
+            $this->throwValidationException(
+                $request, $validator
+            );
+        }
 
         $x1 = $request->input('x1');
         $y1 = $request->input('y1');
@@ -172,7 +213,8 @@ class CubeController extends Controller
                 }
             }
         }
-        
+
+        $blocks = $cube->blocks()->paginate(10);
         return view('cubes.show', array('cubes'     => $cubes,
                                         'cube_act'  => $cube,
                                         'blocks'    => $blocks,

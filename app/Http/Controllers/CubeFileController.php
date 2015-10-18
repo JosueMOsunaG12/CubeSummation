@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Validator;
 use App\Cube;
 use App\Block;
 use Illuminate\Http\Request;
@@ -45,7 +46,7 @@ class CubeFileController extends Controller
      */
     public function update($x, $y, $z, $value)
     {
-        $blocks = $this->cube->blocks();
+        $blocks = $this->cube->blocks()->get();
 
         foreach ($blocks as $block) {
             if ($block->x == $x && $block->y == $y && $block->z == $z) {
@@ -73,7 +74,7 @@ class CubeFileController extends Controller
      */
     public function query($x1, $y1, $z1, $x2, $y2, $z2)
     {
-        $blocks = $this->cube->blocks();
+        $blocks = $this->cube->blocks()->get();
         $sum = 0;
 
         foreach ($blocks as $block) {
@@ -99,6 +100,16 @@ class CubeFileController extends Controller
      */
     public function upload(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'cube_file' => 'required|mimes:txt|max:128',
+        ]);
+
+        if ($validator->fails()) {
+            $this->throwValidationException(
+                $request, $validator
+            );
+        }
+
         $file = $request->file('cube_file');
         $input = fopen($file, 'r');
         Storage::delete('output.txt');
@@ -132,9 +143,10 @@ class CubeFileController extends Controller
 
         fclose($input);
 
-        \Session::flash('download_in_the_next_request', 'cube/download');
+        $next_page = '/cube/'. $this->cube->id .'/download';
+        \Session::flash('download_in_the_next_request', $next_page);
 
-        return redirect()->to('/cube/');
+        return redirect()->to('/cube/' . $this->cube->id);
     }
 
     /**

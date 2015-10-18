@@ -13,6 +13,14 @@ class Block extends Model
      */
     protected $table = 'blocks';
 
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = ['x', 'y', 'z', 'value', 'cube_id'];
+
     /**
      * Get the cube for the block.
      */

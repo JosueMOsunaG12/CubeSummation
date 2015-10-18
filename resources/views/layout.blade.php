@@ -3,21 +3,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="../../favicon.ico">
+    <meta name="description" content="Cube Summation">
+    <meta name="author" content="Josué Miguel Osuna">
 
-    <title>Jumbotron Template for Bootstrap</title>
+    <title>Cube Summation</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="../../dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="jumbotron.css" rel="stylesheet">
-
-    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-    <script src="../../assets/js/ie-emulation-modes-warning.js"></script>
+    {!! Html::style('https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css') !!}
+    {!! Html::style('assets/css/main.css') !!}
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -28,38 +21,112 @@
 
   <body>
     <!-- Main jumbotron for a primary marketing message or call to action -->
-    <div class="jumbotron">
+    <div class="jumbotron text-center">
       <div class="container">
-        <h1>Hello, world!</h1>
-        <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
-        <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more »</a></p>
+        <h1>Cube Summation</h1>
+        <div class="row"> 
+          @if (count($cubes) > 0)
+          <div class="col-md-2 col-md-offset-4">
+            <div class="dropdown">
+              <button class="btn btn-info btn-lg dropdown-toggle" type="button" id="dropdownCube" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                {{ $cube_act->name or 'Choose a Cube' }}
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" aria-labelledby="dropdownCube">
+                @foreach($cubes as $cube)
+                <li><a href="/cube/{{ $cube->id }}">{{ $cube->name }}</a></li>
+                @endforeach
+              </ul>
+            </div>
+          </div>
+          <div class="col-md-2">
+          @else
+          <div class="col-md-2 col-md-offset-5">
+          @endif
+          <!-- Button trigger modal -->
+            <button type="button" class="btn btn-success btn-lg" id="addCube" data-toggle="modal" data-target="#modalAddCube">
+              Add a Cube
+            </button>
+          </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="modalAddCube" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Add a Cube</h4>
+              </div>
+              {!! Form::open() !!}
+              <div class="modal-body">
+                <div class="form-group">
+                  {!! Form::text('name', null, ['class' => 'form-control', 'placeholder' => 'Name']) !!}
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                {!! Form::submit('Add', ['class' => 'btn btn-success'] ) !!}
+              </div>
+              {!! Form::close() !!}
+            </div>
+          </div>
+        </div>
+
+
+        @if(isset($cube_act))
+          <!-- Button trigger modal -->
+          <button type="button" class="btn btn-primary" id="updateCube" data-toggle="modal" data-target="#modalUpdateCube">
+            Update Cube
+          </button>
+
+          <!-- Modal -->
+          <div class="modal fade" id="modalUpdateCube" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title" id="myModalLabel">Update a Cube</h4>
+                </div>
+                {!! Form::open(array('url' => 'cube/' . $cube_act->id, 'method' => 'put')) !!}
+                <div class="modal-body">
+                  <div class="form-group">
+                    {!! Form::text('x', null, ['class' => 'form-control', 'placeholder' => 'X']) !!}
+                    <br>{!! Form::text('y', null, ['class' => 'form-control', 'placeholder' => 'Y']) !!}
+                    <br>{!! Form::text('z', null, ['class' => 'form-control', 'placeholder' => 'Z']) !!}
+                    <br>{!! Form::text('value', null, ['class' => 'form-control', 'placeholder' => 'Value']) !!}
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  {!! Form::submit('Update', ['class' => 'btn btn-primary'] ) !!}
+                </div>
+                {!! Form::close() !!}
+              </div>
+            </div>
+          </div>
+
+          <!-- Button trigger modal -->
+          <button type="button" class="btn btn-primary" id="queryCube" data-toggle="modal" data-target="#modalQueryCube">
+            Query Cube
+          </button>
+
+          <!-- Button trigger modal -->
+          <button type="button" class="btn" id="loadFileCube" data-toggle="modal" data-target="#modalLoadFileCube">
+            Load Cube File
+          </button>
+        @endif
       </div>
     </div>
 
-    <div class="container">
+    <div class="container text-center">
       <!-- Example row of columns -->
-      <div class="row">
-        <div class="col-md-4">
-          <h2>Heading</h2>
-          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-          <p><a class="btn btn-default" href="#" role="button">View details »</a></p>
-        </div>
-        <div class="col-md-4">
-          <h2>Heading</h2>
-          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-          <p><a class="btn btn-default" href="#" role="button">View details »</a></p>
-       </div>
-        <div class="col-md-4">
-          <h2>Heading</h2>
-          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-          <p><a class="btn btn-default" href="#" role="button">View details »</a></p>
-        </div>
-      </div>
+      @yield('content')
 
       <hr>
 
       <footer>
-        <p>© Company 2014</p>
+        <p>© Josue Miguel Osuna 2015</p>
       </footer>
     </div> <!-- /container -->
 
@@ -67,10 +134,7 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="../../dist/js/bootstrap.min.js"></script>
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
-  
+    {!! Html::script('https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js') !!}
+    {!! Html::script('https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js') !!}
 
 </body></html>

@@ -1,0 +1,6 @@
+.container.text-center .row {
+    min-height: 60%;
+}
+.row {
+    margin-bottom: 20px;
+}

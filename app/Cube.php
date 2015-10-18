@@ -14,10 +14,19 @@ class Cube extends Model
     protected $table = 'cubes';
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = ['name'];
+
+
+
+    /**
      * Get the blocks for the cube.
      */
     public function blocks()
     {
-        return $this->hasMany('App\Block');
+        return $this->hasMany('App\Block')->get();
     }
 }

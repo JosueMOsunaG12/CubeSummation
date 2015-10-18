@@ -18,8 +18,8 @@ class CreateBlocksTable extends Migration
             $table->smallInteger('y');
             $table->smallInteger('z');
             $table->bigInteger('value');
-            $table->integer('cubes_id')->unsigned();
-            $table->foreign('cubes_id')
+            $table->integer('cube_id')->unsigned();
+            $table->foreign('cube_id')
                   ->references('id')->on('cubes')
                   ->onDelete('cascade');
             $table->timestamps();

@@ -1,6 +1,10 @@
 .container.text-center .row {
-    min-height: 60%;
+    min-height: 55%;
 }
 .row {
     margin-bottom: 20px;
+}
+.table.table-hover th,
+.table.table-hover td {
+    text-align: center;
 }

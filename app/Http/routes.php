@@ -14,3 +14,7 @@ Route::get('/', function () {
   return redirect()->route('cube.index');
 });
 Route::resource('cube', 'CubeController');
+Route::post('cube/{id}/query/', 'CubeController@query');
+Route::post('cube/upload/', 'CubeFileController@upload');
+Route::get('cube/download/', 'CubeFileController@download');
+

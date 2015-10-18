@@ -94,6 +94,7 @@ class CubeController extends Controller
         $cubes = Cube::all();
         $cube = $cubes->find($id);
         $blocks = $cube->blocks();
+        $message = 'The cube was updated successfully';
 
         $x = $request->input('x');
         $y = $request->input('y');
@@ -105,9 +106,10 @@ class CubeController extends Controller
                 $block->value = $value;
                 $block->save();
 
-                return view('cubes.show', array('cubes' => $cubes,
-                                                'cube_act' => $cube,
-                                                'blocks' => $blocks));   
+                return view('cubes.show', array('cubes'     => $cubes,
+                                                'cube_act'  => $cube,
+                                                'blocks'    => $blocks,
+                                                'message'   => $message));   
             }  
         }
 
@@ -120,9 +122,10 @@ class CubeController extends Controller
         ));
 
         $blocks = $cube->blocks();
-        return view('cubes.show', array('cubes' => $cubes,
-                                        'cube_act' => $cube,
-                                        'blocks' => $blocks));
+        return view('cubes.show', array('cubes'     => $cubes,
+                                        'cube_act'  => $cube,
+                                        'blocks'    => $blocks,
+                                        'message'   => $message));
 
     }
 
@@ -135,5 +138,44 @@ class CubeController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * Query the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function query(Request $request, $id)
+    {
+        $cubes = Cube::all();
+        $cube = $cubes->find($id);
+        $blocks = $cube->blocks();
+        $sum = 0;
+        $message = "The query resulted in the sum of: ";
+
+        $x1 = $request->input('x1');
+        $y1 = $request->input('y1');
+        $z1 = $request->input('z1');
+        $x2 = $request->input('x2');
+        $y2 = $request->input('y2');
+        $z2 = $request->input('z2');
+
+
+        foreach ($blocks as $block) {
+            if (($x1 <= $block->x) && ($block->x <= $x2)) {
+                if (($y1 <= $block->y) && ($block->y <= $y2)){
+                    if (($z1 <= $block->z) && ($block->z <= $z2)) {
+                        $sum += $block->value;
+                    }
+                }
+            }
+        }
+        
+        return view('cubes.show', array('cubes'     => $cubes,
+                                        'cube_act'  => $cube,
+                                        'blocks'    => $blocks,
+                                        'message'   => $message . $sum));
     }
 }

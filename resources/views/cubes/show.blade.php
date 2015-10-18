@@ -1,11 +1,11 @@
-@extends('layout')
+@extends('cubes.layout')
 
 @section('content')
 <div class="row">
   <div class="col-md-12">
-    @if(isset($msg_update))
+    @if(isset($message))
       <div class="alert alert-success" role="alert">
-        <h4>{{ $msg_update }}</h4>
+        <h4>{{ $message }}</h4>
       </div>
     @endif
     <h2>Blocks for the cube {{ $cube_act->name }}</h2>
